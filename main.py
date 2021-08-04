@@ -19,7 +19,7 @@ class TinderBot():
 
         self.driver.maximize_window()
         self.fb_cookie_btn_xpath = "//button[contains(@data-cookiebanner, 'accept_button')]"
-        
+
     def get_main_page(self):
         self.driver.get("https://tinder.com/")
         time.sleep(1)
@@ -48,6 +48,7 @@ class TinderBot():
         self.wait_for_cookie_window_dissapear()
         time.sleep(6) #waiting to possible new appear same window
         if self.driver.find_elements_by_xpath(self.fb_cookie_btn_xpath):
+            print("znaleziono powtornie cookie btn")
             accept_cookie_btn = self.driver.find_element_by_xpath(self.fb_cookie_btn_xpath)
             accept_cookie_btn.click()
             self.wait_for_cookie_window_dissapear()
