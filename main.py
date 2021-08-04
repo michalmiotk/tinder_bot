@@ -80,6 +80,12 @@ class TinderBot():
         #not implemented yet
         any_btn = self.driver.find_element_by_xpath('//button/[contains')
         any_btn.click()
+    def like_limit_reached(self):
+        like_timer_xpath = '//div[contains(@role, "timer")]'
+        if self.driver.find_elements_by_xpath(like_timer_xpath):
+            return True
+        else:
+            return False
 
     def swipe_right_once(self):
         like_xpath = "//button[contains(@class, 'like-green')]"
@@ -93,14 +99,18 @@ class TinderBot():
                 add_tinder_to_welcome_screen_btn = self.driver.find_element_by_xpath(add_tinder_to_welcome_screen_xpath)
                 add_tinder_to_welcome_screen_btn.click()
             else:
-                print("klikaj serce")
+                if self.like_limit_reached():
+                    return True
 
 
     def swipe_right_loop(self):
         while True:
-            self.swipe_right_once()
-            print("succes swipe")
-            time.sleep(1)
+            if self.swipe_right_once():
+                print("limit likeow osiagniety")
+                break
+            else:
+                print("succes swipe")
+                time.sleep(1)
 
 if __name__ == '__main__':
     run = TinderBot()
