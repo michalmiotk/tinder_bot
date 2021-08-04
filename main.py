@@ -19,6 +19,7 @@ class TinderBot():
 
         self.driver.maximize_window()
         self.fb_cookie_btn_xpath = "//button[contains(@data-cookiebanner, 'accept_button')]"
+        
     def get_main_page(self):
         self.driver.get("https://tinder.com/")
         time.sleep(1)
@@ -76,10 +77,6 @@ class TinderBot():
         time.sleep(1)
         self.driver.switch_to_window(self.driver.window_handles[0])
 
-    def click_heart_when_match(self):
-        #not implemented yet
-        any_btn = self.driver.find_element_by_xpath('//button/[contains')
-        any_btn.click()
     def like_limit_reached(self):
         like_timer_xpath = '//div[contains(@role, "timer")]'
         if self.driver.find_elements_by_xpath(like_timer_xpath):
