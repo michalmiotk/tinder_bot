@@ -8,7 +8,11 @@ from selenium.common.exceptions import TimeoutException
 
 class TinderBot():
     def __init__(self):
-        self.driver = webdriver.Chrome(r'C:\chromedriver.exe')
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option('useAutomationExtension', False)
+        self.driver = webdriver.Chrome(r'C:\chromedriver.exe', chrome_options=options)
+
         self.driver.maximize_window()
 
     def get_main_page(self):
@@ -33,7 +37,7 @@ class TinderBot():
 
         while True:
             try:
-                WebDriverWait(self.driver, 2).until(EC.presence_of_element_located((By.XPATH, cookie_btn_xpath)))
+                WebDriverWait(self.driver, 1).until(EC.presence_of_element_located((By.XPATH, cookie_btn_xpath)))
             except TimeoutException:
                 print("waiting for cookie window dissapear")
                 break
@@ -60,18 +64,21 @@ class TinderBot():
         self.driver.switch_to_window(self.driver.window_handles[0])
         time.sleep(5)
         self.config_tinder_user_page()
-        time.sleep(6)
+        time.sleep(8)
         self.swipe_right_loop()
 
     def swipe_right_once(self):
-        swipe_right_btn = self.driver.find_element_by_xpath(
-            '/html/body/div[1]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[4]/div/div[4]/button')
+        #like_xpath = '/html/body/div[1]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[4]/div/div[4]/button'
+
+        swipe_right_btn = self.driver.find_element_by_xpath("//button[contains(@class, 'like-green')]")
+
         swipe_right_btn.click()
 
     def swipe_right_loop(self):
         while True:
             self.swipe_right_once()
-            time.sleep(2)
+            print("succes swipe")
+            time.sleep(1)
 
 if __name__ == '__main__':
     run = TinderBot()
