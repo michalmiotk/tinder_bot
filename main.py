@@ -15,8 +15,7 @@ class TinderBot():
         options = webdriver.ChromeOptions()
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option('useAutomationExtension', False)
-        self.driver = webdriver.Chrome(r'C:\chromedriver.exe', chrome_options=options)
-
+        self.driver = webdriver.Chrome(r'C:\chromedriver.exe', options=options)
         self.driver.maximize_window()
         self.fb_cookie_btn_xpath = "//button[contains(@data-cookiebanner, 'accept_button')]"
 
@@ -37,9 +36,11 @@ class TinderBot():
         while True:
             try:
                 WebDriverWait(self.driver, 1).until(EC.presence_of_element_located((By.XPATH, self.fb_cookie_btn_xpath)))
+                time.sleep(1)
                 break
             except TimeoutException:
                 print("waiting for cookie window dissapear")
+
     def handle_two_similar_fb_cookie_windows(self):
         while not self.driver.find_element_by_xpath(self.fb_cookie_btn_xpath):
             time.sleep(0.1)
@@ -55,7 +56,7 @@ class TinderBot():
 
 
     def action_on_fb_login_page(self):
-        self.driver.switch_to_window(self.driver.window_handles[1])
+        self.driver.switch_to.window(self.driver.window_handles[1])
         self.handle_two_similar_fb_cookie_windows()
         email_input = self.driver.find_element_by_xpath('//input[contains(@name, "email")]')
         email_input.send_keys(email)
@@ -76,7 +77,7 @@ class TinderBot():
         self.action_on_fb_login_page()
 
         time.sleep(1)
-        self.driver.switch_to_window(self.driver.window_handles[0])
+        self.driver.switch_to.window(self.driver.window_handles[0])
 
     def like_limit_reached(self):
         like_timer_xpath = '//div[contains(@role, "timer")]'
