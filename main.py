@@ -54,7 +54,6 @@ class TinderBot():
             accept_cookie_btn.click()
             self.wait_for_cookie_window_dissapear()
 
-
     def action_on_fb_login_page(self):
         self.driver.switch_to.window(self.driver.window_handles[1])
         self.handle_two_similar_fb_cookie_windows()
@@ -62,8 +61,8 @@ class TinderBot():
         email_input.send_keys(email)
         pass_input = self.driver.find_element_by_xpath('//input[contains(@type, "password")]')
         pass_input.send_keys(password)
-        login_fb_btn = self.driver.find_element_by_xpath('//button[contains(@name, "login")]')
-        login_fb_btn.click()
+        login_fb_btn = self.driver.find_element_by_xpath('//input[contains(@name, "login")]')
+        login_fb_btn.submit()
 
     def login(self):
         login_btn_path = '//body/div/div/div/div/main/div/div/div/div/div/header/div/div[2]/div[2]'
@@ -75,7 +74,6 @@ class TinderBot():
         login_with_fb_btn.click()
         time.sleep(1)
         self.action_on_fb_login_page()
-
         time.sleep(1)
         self.driver.switch_to.window(self.driver.window_handles[0])
 
@@ -101,14 +99,16 @@ class TinderBot():
                 if self.like_limit_reached():
                     return True
 
-
     def swipe_right_loop(self):
+        i=0
         while True:
             if self.swipe_right_once():
                 print("limit likeow osiagniety")
                 break
             else:
                 print("succes swipe")
+                i += 1
+                print(i)
                 time.sleep(1)
 
 if __name__ == '__main__':
